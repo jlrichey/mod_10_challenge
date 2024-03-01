@@ -1,30 +1,36 @@
-# Module 6 Challenge - Housing Rental Analysis for San Francisco
+# Module 10 Challenge - Crypto Clustering
 
 ## Overview
 
-This challenge will engage the Proptech world in conducting an analysis of real estate data for San Francisco from 2010 to 2016. The goal is to present a trial version of this software that will aid customers in selecting properties to purchase and present to the market as rentals in the San Francisco area.  
+In this challenge, I assume the role of a financial advisor proposing a unique approach to structuring investment portfolios based on cryptocurrencies. In pitching this idea, I will integrate unsupervised learning algorithms to go beyond the typical analysis of returns and volatility. 
 
 ## Technical Details
 
-The notebook will load the following libraries and dependencies.
+The notebook will load the following libraries and dependencies. 
 
 ```python
 import pandas as pd
 import hvplot.pandas
 from pathlib import Path
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 ```
+The data for this project will be imported from a csv file utilizing the Pandas `.read_csv` method and returned into a DataFrame for analysis.  The csv file contains price change percentage data over seven distinct time windows for 41 cryptocurrencies.  The time windows include:
 
-The data for this project will be imported from three distinct csv files utilizing the Pandas `.read_csv` method and returned into a DataFrame for analysis. The data will be visualized as bar, line, line with a group pull-down, and scatter plots, utilizing Holoviews Plotting `hvplot`. 
+* Price change % 24 hour
+* Price change % 7 day
+* Price change % 14 day
+* Price change % 30 day
+* Price change % 60 day
+* Price change % 200 day 
+* Price change % 1 year
 
-The first visualization will examine the number of housing units per year from 2010 to 2016 in San Francisco utilizing a `.mean()` of a dataframe that has been grouped by the "year" field. Conclusions will be drawn from this visualization pertaining to overall housing unit trends. This visualization will illustrate the overall growth in number of housing units, year-to-year in San Francisco.
+The data will be normalized with the `StandardScaler()` module from `scikit-learn` to prepare it for analysis. It will then be parsed utilizing the `KMeans` model set to the correct number of clusters according to elbow curve data. Each cryptocurrency will be assigned to one of four cluster options by the algorithm and then visualized as a scatter plot utilizing `.hvplot`.
 
-The second visualization will graph the data for both the sale price per square foot and the gross rent for San Francisco over the same period as a plot with two lines. It will validate the idea that gross rent is steadily growing while home sales prices per square foot remain rather flat over the subject period.
+The data will be run through the `KMeans` algorithm once again, this time being optimized with Principal Component Analysis (PCA) to reduce it to three principal components.  The two approaches will be plotted for analysis and compared.  
 
-The third visualization will plot the same data, this time with "neighborhoods" grouped (`groupby = 'neighborhood'`), creating a pull-down to show data for the selected neighborhood.
-
-The fourth visualization, an interactive neighborhood map (scatter plot), will be a concatenation of two DataFrames, joining the geospatial data to the existing real estate data. The dots plotted will be sized to the `sale_price_sqr_foot` column and the color parameter will be set to `gross_rent`.
-
-Relevant conclusions to the San Francisco real estate market will be drawn by hovering over the subject plots and analyzing the hover data.
+Despite using fewer features with the PCA approach, the same clusters were achieved, with two distinct outliers clearly visible in both scatter plots, the ethlend and celsius-degree-token cryptocurrencies.
 
 ## Sources
 
